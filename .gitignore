@@ -1,0 +1,10 @@
+# Ignore the files pertaining to the mesh data (meshes, electrodes and stimulus sites)
+
+*.vtx
+*.elem
+*.lon
+*.pts
+*.surf
+*.pts_t
+*.roe
+*.trc
