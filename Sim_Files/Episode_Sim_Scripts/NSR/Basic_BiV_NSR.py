@@ -1,9 +1,15 @@
 
-#Basic Ventricular Stimulation script: Options to pulse for the desired strength, stim duration, no. pulses, bcl, start times for pulses, cell model and options to checkpoint. You can also choose the output resolution to save on simulation time.
+#Basic Ventricular Stimulation script for NSR. Optional arguments:
+# Pulse Strength and Duration 
+# Basic Cycle Length (BCL)
+# Pulse start times
+# Cell model
+# Checkpoint intervals
+
+
 import os
 
-EXAMPLE_DESCRIPTIVE_NAME = 'Example of NSR'
-EXAMPLE_AUTHOR = 'Hannah Lydon <k23086865@kcl.ac.uk'
+AUTHOR = 'Hannah Lydon hannah.lydon@kcl.ac.uk'
 EXAMPLE_DIR = os.path.dirname(__file__)
 CALLER_DIR = os.getcwd()
 GUIinclude = False
@@ -19,21 +25,21 @@ def parser():
     group  = parser.add_argument_group('experiment specific options')
 
     # Add experiment arguments
+    group.add_argument('--electrodes',
+                       type = float,
+                       help = 'Electrode locations for record extracellular potentials: Must be provided by user')
     group.add_argument('--mesh',
-                       type = str, default = 'ventricles_coarser',
-                      help = 'Simulation mesh (default is %(default)s)' )
+                       type = str,
+                      help = 'Simulation mesh: Must be provided by user' )
     group.add_argument('--input_state', 
-                       type = str, default = "1_NSR_input_3200.roe",
-                       help = 'Checkpointed State at which to start the simulation from, default is %(default)s')
+                       type = str, 
+                       help = 'Input state for simulation')
     group.add_argument('--conmul',
                        type = float, default = 1.0,
                        help = 'Multiplication factor for default conductivities (default is %(default)s)')
     group.add_argument('--tend',
                        type = float, default = 30000,
                        help = 'Duration of simulation (default is %(default)s) ms')
-    group.add_argument('--pls',
-                       type = float, default = 38,
-                       help = 'Number of pulses (default is %(default)s)')
     group.add_argument('--bcl',
                         type = float, default = 800,
                         help = 'BCL pulses (default is %(default)s ms, 75bpm )')
@@ -56,8 +62,6 @@ def parser():
     group.add_argument('--check',
                        type = float, default = 1000,
                        help = 'Time interval for saving the state of the simulation (default is %(default)s ms, 1 second )')
-   
-
     return parser
 
 
@@ -79,13 +83,12 @@ def run(args, job):
     # Add some example-specific command line options
     cmd += ['-meshname', args.mesh,
             '-tend', args.tend,
-            '-gridout_i', 3,
-            #'-gridout_e', 3
+            '-gridout_i', 3
     ]
     
     #Define phie points 
     cmd += [
-             '-phie_rec_ptf', 'electrodesICD',
+             '-phie_rec_ptf', args.electrodes,
             ]
     
     #Adding commands for mesh properties
@@ -97,6 +100,7 @@ def run(args, job):
             '-phys_region[1].name', 'extracellular',
             '-phys_region[1].ptype', 1
             ]
+    
     #Define the ionic model to use
     cmd += ['-num_imp_regions',          1,
             '-imp_region[0].im',         args.model,

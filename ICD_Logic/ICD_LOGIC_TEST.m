@@ -37,16 +37,6 @@ while(true)
         disp('ATP Therapy Availability Threshold Exceeded - Shock Required!');
         break;
 
-        % % Terminate background episode simulation
-        % killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1');
-        % system(killCommand);
-        % disp('Initial Episode Simulation Ended...');
-        % return;
-        % 
-
-         %% TO-DO: Sort the therapy delivery and redetection for the VF zone!!
-        % For the initial episode, if VF therapy required and no therapy has been
-        % delivered in this zone, proceed with QC ATP.
 
     elseif VF && history(3) < 2 %QC therapy required - Follow therapy pathway for VF:
 
@@ -57,11 +47,6 @@ while(true)
         %Save the previous therapy signals for later comparison
         prev_therapySigs = therapy_sig;
         %save("Prev_TherapySigs.mat", "prev_therapySigs");
-
-        % % Call the function to run the QC ATP therapy simulation
-        % %[outputFile, ICD_diagnosis, pid] = QC_ATP(outputFile, ICD_diagnosis, Input_state_time_init, ATP_CL, ATP_coupling, ...
-        %     mesh, conmul, nprocs, pythonExe, Simscript, full_sim_time, bcl, strength, duration, ...
-        %     start, output_res, check, monitor_duration);
 
 
         disp('Running QC ATP')
@@ -271,27 +256,18 @@ while(true)
     elseif VF >= 1 && history(3) > 2 %QC therapy already applied:
 
         disp(['VF Called: Available Therapies Unsuccessful - Shock Required!', num2str(history)])
-        % %Terminate background episode simulation
-        % killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
-        % system(killCommand);
-        % disp('Initial Episode Simulation Ended...');
+   
 
         break;
 
     elseif VT >= 1 && history(2) > 3 %Both rounds of ATP already delivered:
         disp(['VT Called: Available Therapies Unsuccessful - Shock Required!', num2str(history)])
-        % %Terminate background episode simulation
-        % killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
-        % system(killCommand);
-        % disp('Initial Episode Simulation Ended...');
+      
         break;
 
     elseif VT1 >= 1 && history(1) > 3 %Both rounds of ATP already delivered:
         disp(['VT1 Called: Available Therapies Unsuccessful - Shock Required!', num2str(history)])
-        %Terminate background episode simulation
-        % killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
-        % system(killCommand);
-        % disp('Initial Episode Simulation Ended...');
+      
         break;
     end
 end

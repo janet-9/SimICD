@@ -2,8 +2,8 @@
 #Basic Ventricular Stimulation script: Options to pulse for the desired strength, stim duration, no. pulses, bcl, start times for pulses, cell model and options to checkpoint. You can also choose the output resolution to save on simulation time.
 import os
 
-EXAMPLE_DESCRIPTIVE_NAME = 'RV_ATP'
-EXAMPLE_AUTHOR = 'Hannah Lydon <k23086865@kcl.ac.uk'
+EXAMPLE_DESCRIPTIVE_NAME = 'ATP_Ramp'
+EXAMPLE_AUTHOR = 'Hannah Lydon'
 EXAMPLE_DIR = os.path.dirname(__file__)
 CALLER_DIR = os.getcwd()
 GUIinclude = False

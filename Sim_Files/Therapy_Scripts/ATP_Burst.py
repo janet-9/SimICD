@@ -2,7 +2,6 @@
 import os
 
 EXAMPLE_DESCRIPTIVE_NAME = 'RV_ATP'
-EXAMPLE_AUTHOR = 'Hannah Lydon <k23086865@kcl.ac.uk'
 EXAMPLE_DIR = os.path.dirname(__file__)
 CALLER_DIR = os.getcwd()
 GUIinclude = False

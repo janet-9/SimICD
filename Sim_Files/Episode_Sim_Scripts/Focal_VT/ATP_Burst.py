@@ -1,8 +1,8 @@
-#Basic Ventricular Stimulation script: Options to pulse for the desired strength, stim duration, no. pulses, bcl, start times for pulses, cell model and options to checkpoint. You can also choose the output resolution to save on simulation time.
+#BURST ATP SCRIPT: Options to pulse for the desired strength, stim duration, no. pulses, bcl, start times for pulses, cell model and options to checkpoint. 
+#You can also choose the output resolution to save on simulation time.
 import os
 
-EXAMPLE_DESCRIPTIVE_NAME = 'RV_ATP'
-EXAMPLE_AUTHOR = 'Hannah Lydon <k23086865@kcl.ac.uk'
+DESCRIPTIVE_NAME = 'Burst ATP Script'
 EXAMPLE_DIR = os.path.dirname(__file__)
 CALLER_DIR = os.getcwd()
 GUIinclude = False
@@ -25,7 +25,7 @@ def parser():
                       help = 'Simulation mesh (default is %(default)s)' )
     group.add_argument('--conmul',
                        type = float, default = 1.0,
-                       help = 'Multiplication factor for conductivityin the isthmus (default is %(default)s)')
+                       help = 'Multiplication factor for conductivity in the isthmus (default is %(default)s)')
     group.add_argument('--input_state',
                        type = str, default = "1_LV_reentrant_bottom_350.roe",
                        help = 'Checkpointed State at which to start the ATP therapy from, default is %(default)s')

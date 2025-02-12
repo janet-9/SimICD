@@ -8,7 +8,6 @@ from carputils import ep
 from carputils import settings 
 
 EXAMPLE_DESCRIPTIVE_NAME = 'Phie Extractor'
-EXAMPLE_AUTHOR = 'Hannah Lydon <k23086865@kcl.ac.uk>'
 EXAMPLE_DIR = os.path.dirname(__file__)
 CALLER_DIR = os.getcwd()
 GUIinclude = False
