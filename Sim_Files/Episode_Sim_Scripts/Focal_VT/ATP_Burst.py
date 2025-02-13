@@ -1,8 +1,8 @@
-#BURST ATP SCRIPT: Options to pulse for the desired strength, stim duration, no. pulses, bcl, start times for pulses, cell model and options to checkpoint. 
-#You can also choose the output resolution to save on simulation time.
-import os
+#BURST ATP SCRIPT: User must define the default mesh and electrode stimulation points. 
+#Optional arguments can be found in the parser
 
-DESCRIPTIVE_NAME = 'Burst ATP Script'
+
+import os
 EXAMPLE_DIR = os.path.dirname(__file__)
 CALLER_DIR = os.getcwd()
 GUIinclude = False
@@ -17,22 +17,33 @@ def parser():
     parser = tools.standard_parser()
     group  = parser.add_argument_group('experiment specific options')
 
-    # Add experiment arguments
-
     #Mesh specific arguments 
     group.add_argument('--mesh',
-                       type = str, default = 'ventricles_coarser',
-                      help = 'Simulation mesh (default is %(default)s)' )
+                       type = str,
+                      help = 'Simulation mesh (Must be specified)' )
+    group.add_argument('--myocardium',
+                       type = float, 
+                       help = 'Region Tag for the myocardium (Must be specified)')
+    group.add_argument('--scar_flag',
+                       type = bool, choices = [0,1], default = 1,
+                       help = 'Flag for assigning conductivities to regions of scar tissue (1 for meshes with scarring, 0 for meshes without. Default is %(default)s)'
+                       )
+    group.add_argument('--scar_region',
+                       type = float, 
+                       help = 'Region Tag for scarring (Must be specified for meshes with scar tissue, omit if none are present)')
+    group.add_argument('--isthmus_region',
+                       type = float, 
+                       help = 'Region Tag for the isthmus (Must be specified for meshes with isthmuses, omit if none are present)')
     group.add_argument('--conmul',
                        type = float, default = 1.0,
                        help = 'Multiplication factor for conductivity in the isthmus (default is %(default)s)')
     group.add_argument('--input_state',
-                       type = str, default = "1_LV_reentrant_bottom_350.roe",
-                       help = 'Checkpointed State at which to start the ATP therapy from, default is %(default)s')
+                       type = str, 
+                       help = 'Checkpointed State at which to start the ATP therapy from (Must be specified)')
     group.add_argument('--model',
                         type = str,
                         default = "tenTusscherPanfilov", 
-                        help='ionic model (default is %(default)s)')
+                        help='ionic cell model (default is %(default)s)')
 
    #Length of full simulation run-time - remember the time stamp of the input state! 
     group.add_argument('--tend',
@@ -40,23 +51,26 @@ def parser():
                        help = 'Duration of simulation (default is %(default)s) ms')
     
     #NSR arguments 
-    group.add_argument('--pls',
-                       type = float, default = 38,
-                       help = 'Number of pulses (default is %(default)s)')
     group.add_argument('--bcl',
                         type = float, default = 800,
-                        help = 'BCL pulses (default is %(default)s ms, 75bpm )')
+                        help = 'BCL for NSR (default is %(default)s ms, 75bpm )')
     group.add_argument('--strength',
                         type = float, default = 450,
-                        help = 'Strength for the stimulation (default is %(default)s muA)')
+                        help = 'Strength for the NSR stimulation (default is %(default)s muA)')
     group.add_argument('--duration',
                         type = float, default = 4,
-                        help = 'Duration for the stimulation (default is %(default)s  ms)')
+                        help = 'Duration for the NSR stimulation (default is %(default)s  ms)')
     group.add_argument('--start',
                        type = float, default = 0,
-                       help = 'Start time of whole heart stimulation (default is %(default)s ms)')
+                       help = 'Start time of whole heart NSR stimulation (default is %(default)s ms)')
+    group.add_argument('--NSR_vtx', 
+                       type = str,
+                       help = '.vtx file for NSR stimulus site (Must be specified)')
     
     # Output arguments, resolution of the output files and checn checkpoints are generated 
+    group.add_argument('--electrodes',
+                       type = str,
+                       help = 'Name of .pts file for the ICD electrodes, from which phie is recovered (Must be specified)')
     group.add_argument('--output_res',
                        type = float, default = 1,
                        help = 'Resolution of output for .igb files (default is %(default)s ms)')
@@ -68,26 +82,25 @@ def parser():
     #Arguments for the simulation of ATP. 
     group.add_argument('--ATP_start',
                        type = float, default = 0,
-                       help = 'Start time the ATP burst (default is %(default)s ms)') #This represents the coupling interval, which is set to 88% of the last measured bcl. The ATP starts t seconds after the last registered pulse, where t = 0.88(last measured bcl)
+                       help = 'Start time the ATP burst (default is %(default)s ms)') 
     group.add_argument('--ATP_pls',
                        type = float, default = 8,
                        help = 'Number of pulses (default is %(default)s)')
     group.add_argument('--ATP_cl',
-                        type = float, default = 378,
-                        help = 'CL of ATP pulses (default is %(default)s ms, which is 0.88 of the VT_1 threshold)') #ATP BCL, should be given at 0.88 of previously measured bcl. 
+                        type = float,
+                        help = 'Cycle Length of ATP pulses (Must be specified)')
     group.add_argument('--ATP_strength',
-                        type = float, default = 450*2,
-                        help = 'Strength for the ATP stimulation (default is %(default)s uA/cm^2)') #5.0V/ 50uA for pacing taken from the manual/Shuang's paper
+                        type = float,
+                        help = 'Strength for the ATP stimulation (default is twice the strength of NSR stimulus strength)') 
     group.add_argument('--ATP_duration',
                         type = float, default = 5,
-                        help = 'Pulse Duration for the ATP stimulation (default is %(default)s  ms)') #5ms fpr pacing taken from Shuang's paper
+                        help = 'Pulse Duration for the ATP stimulation (default is %(default)s  ms)')
     group.add_argument('--ATP_stimsite',
-                       type = str, default = 'ATP_stim.vtx',
-                       help = 'Pacing site for the ATP (default is %(default)s)') # ATP pacing site needs to be finalised 
+                       type = str, 
+                       help = 'Pacing site for the ATP (Must be specified)') 
     group.add_argument('--ATP_Min_Cycle',
                        type = float, default = 220,
-                        help = 'Minimum Cycle Length of ATP (default is %(defaults)s)' ) #Minimum interval for ATP delivery 
-
+                        help = 'Minimum Cycle Length of ATP (default is %(defaults)s)' ) 
 
     return parser
 
@@ -109,6 +122,11 @@ def run(args, job):
     else:
          ATP_cl = args.ATP_cl 
 
+#ATP stimulus trength check
+    if args.ATP_strength is None:
+         args.ATP_strength = 2*args.strength 
+
+
     # Generate general command line
     cmd = tools.carp_cmd()
 
@@ -120,12 +138,11 @@ def run(args, job):
             '-start_statef', args.input_state,
             '-tend', args.tend,
             '-gridout_i', 3,
-            #'-gridout_e', 3
     ]
     
     #Define phie points 
     cmd += [
-             '-phie_rec_ptf', 'electrodesICD',
+             '-phie_rec_ptf', args.electrodes,
             ]
     
     #Adding commands for mesh properties
@@ -141,53 +158,52 @@ def run(args, job):
     cmd += ['-num_imp_regions',          1,
             '-imp_region[0].im',         args.model,
             ]
-    #Define the conductivities - this depends on the mesh that you use:
+    
 
-    if 'infarct' in args.mesh:
-        # Adjust conductivity if infarct is detected
+    #Define the conductivities. User must add in their own values or openCARP defaults will be used.  
+    #User must define the regions for myocardium, scar regions and isthmus regions (if present). Border Zone (BZ) regions can be added if desired by the user:
+    #Note: Mondomain conductivites will be calculated as half of the harmonic mean of intracellular and extracellular conductivities
 
+    if args.scar_flag == 1:
+        # Adjust conductivity if scarring is present in the mesh
             cmd += ['-num_gregions',			3,
-    		'-gregion[0].name', 		"myocardium",
-            '-gregion[0].num_IDs', 4,
-            '-gregion[0].ID[0]', 21,
-            '-gregion[0].ID[1]', 212,
-            '-gregion[0].ID[2]', 22,
-            '-gregion[0].ID[3]', 222,
-    		# mondomain conductivites will be calculated as half of the harmonic mean of intracellular
-    		# and extracellular conductivities
-    		'-gregion[0].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
-    		'-gregion[0].g_et', 		1.253,	# extracellular conductivity in transverse direction
-    		'-gregion[0].g_en', 		0.8295,	# extracellular conductivity in sheet direction
-    		'-gregion[0].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
-    		'-gregion[0].g_it', 		0.35,	# intracellular conductivity in transverse direction
-    		'-gregion[0].g_in', 		0.2345,	# intracellular conductivity in sheet direction
-    		'-gregion[0].g_mult',		1.0, # scale all conducitivites by a factor (to alter conduction velocity)   
+                    
+
+    		'-gregion[0].name', 		"Myocardium",
+            '-gregion[0].num_IDs', 1,
+            '-gregion[0].ID[0]', args.myocardium,
+            
+    		
+    		'-gregion[0].g_el', 		# extracellular conductivity in longitudinal direction
+    		'-gregion[0].g_et', 		# extracellular conductivity in transverse direction
+    		'-gregion[0].g_en', 		# extracellular conductivity in sheet direction
+    		'-gregion[0].g_il', 		# intracellular conductivity in longitudinal direction
+    		'-gregion[0].g_it', 		# intracellular conductivity in transverse direction
+    		'-gregion[0].g_in', 		# intracellular conductivity in sheet direction  
 
             '-gregion[1].name', 		"Scar",
             '-gregion[1].num_IDs', 1,
-            '-gregion[1].ID[0]', 300,
-    		# mondomain conductivites will be calculated as half of the harmonic mean of intracellular
-    		# and extracellular conductivities
-    		'-gregion[1].g_el', 		0.001,	# extracellular conductivity in longitudinal direction
-    		'-gregion[1].g_et', 		0.001,	# extracellular conductivity in transverse direction
-    		'-gregion[1].g_en', 		0.001,	# extracellular conductivity in sheet direction
-    		'-gregion[1].g_il', 		0.001,	# intracellular conductivity in longitudinal direction
-    		'-gregion[1].g_it', 		0.001,	# intracellular conductivity in transverse direction
-    		'-gregion[1].g_in', 		0.001,	# intracellular conductivity in sheet direction
-    		'-gregion[1].g_mult',		1.0, # scale all conducitivites by a factor (to alter conduction velocity)
+            '-gregion[1].ID[0]', args.scar_region,
+    		
 
-             '-gregion[2].name', 		"isthmus",
-             '-gregion[2].num_IDs', 1,
-             '-gregion[2].ID[0]', 400,
+    		'-gregion[1].g_el', 		# extracellular conductivity in longitudinal direction
+    		'-gregion[1].g_et', 		# extracellular conductivity in transverse direction
+    		'-gregion[1].g_en', 		# extracellular conductivity in sheet direction
+    		'-gregion[1].g_il', 		# intracellular conductivity in longitudinal direction
+    		'-gregion[1].g_it', 		# intracellular conductivity in transverse direction
+    		'-gregion[1].g_in', 		# intracellular conductivity in sheet direction
+    		
+
+            '-gregion[2].name', 		"Isthmus",
+            '-gregion[2].num_IDs', 1,
+            '-gregion[2].ID[0]', args.isthmus_region,
            
-    		# mondomain conductivites will be calculated as half of the harmonic mean of intracellular
-    		# and extracellular conductivities
-    		'-gregion[2].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
-    		'-gregion[2].g_et', 		1.2530,	# extracellular conductivity in transverse direction
-    		'-gregion[2].g_en', 		0.8295,	# extracellular conductivity in sheet direction
-    		'-gregion[2].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
-    		'-gregion[2].g_it', 		0.3500,	# intracellular conductivity in transverse direction
-    		'-gregion[2].g_in', 		0.2345,	# intracellular conductivity in sheet direction
+    		'-gregion[2].g_el', 		# extracellular conductivity in longitudinal direction
+    		'-gregion[2].g_et', 		# extracellular conductivity in transverse direction
+    		'-gregion[2].g_en', 		# extracellular conductivity in sheet direction
+    		'-gregion[2].g_il', 		# intracellular conductivity in longitudinal direction
+    		'-gregion[2].g_it', 		# intracellular conductivity in transverse direction
+    		'-gregion[2].g_in', 		# intracellular conductivity in sheet direction
     		'-gregion[2].g_mult',		args.conmul, #scale all conducitivites by a factor (to alter conduction velocity) 
 
 
@@ -196,84 +212,49 @@ def run(args, job):
     else: 
 
         cmd += ['-num_gregions',			1,
-    		'-gregion[0].name', 		"myocardium",
-            '-gregion[0].num_IDs', 4,
-            '-gregion[0].ID[0]', 21,
-            '-gregion[0].ID[1]', 212,
-            '-gregion[0].ID[2]', 22,
-            '-gregion[0].ID[3]', 222,
-    		# mondomain conductivites will be calculated as half of the harmonic mean of intracellular
-    		# and extracellular conductivities
-    		'-gregion[0].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
-    		'-gregion[0].g_et', 		1.253,	# extracellular conductivity in transverse direction
-    		'-gregion[0].g_en', 		0.8295,	# extracellular conductivity in sheet direction
-    		'-gregion[0].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
-    		'-gregion[0].g_it', 		0.35,	# intracellular conductivity in transverse direction
-    		'-gregion[0].g_in', 		0.2345,	# intracellular conductivity in sheet direction
-    		'-gregion[0].g_mult',		args.conmul, # scale all conducitivites by a factor (to alter conduction velocity)   
+                
 
+    		'-gregion[0].name', 		"Myocardium",
+            '-gregion[0].num_IDs', 1,
+            '-gregion[0].ID[0]', args.myocardium,
+          
+    
+    		'-gregion[0].g_el', 		# extracellular conductivity in longitudinal direction
+    		'-gregion[0].g_et', 		# extracellular conductivity in transverse direction
+    		'-gregion[0].g_en', 		# extracellular conductivity in sheet direction
+    		'-gregion[0].g_il', 		# intracellular conductivity in longitudinal direction
+    		'-gregion[0].g_it', 		# intracellular conductivity in transverse direction
+    		'-gregion[0].g_in', 		# intracellular conductivity in sheet direction
                 ]
 
 
+
+
+
     #Define the stimulus - underlying NSR rhythm that continues underneath the arrhythmia episode and the application of the ATP. 
-    cmd += ['-num_stim',  6,
+    cmd += ['-num_stim',  2,
             
-            '-stimulus[0].vtx_fcn', 1,
-           '-stimulus[0].vtx_file', "LV_af.vtx",
-           '-stimulus[0].stimtype',  0,
+            #NSR stimulus
+           '-stimulus[0].vtx_fcn', 1,
+           '-stimulus[0].vtx_file', args.NSR_vtx,
+           '-stimulus[0].stimtype',  0, #Transmembrane Stimulus
            '-stimulus[0].strength', args.strength,
            '-stimulus[0].duration', args.duration,
            '-stimulus[0].start', args.start,
            '-stimulus[0].npls',  args.tend/args.bcl,
            '-stimulus[0].bcl',  args.bcl,
 
+          
+
+            #ATP stimulus
            '-stimulus[1].vtx_fcn', 1,
-           '-stimulus[1].vtx_file', "LV_pf.vtx",
-           '-stimulus[1].stimtype',  0,
-           '-stimulus[1].strength', args.strength,
-           '-stimulus[1].duration', args.duration,
-           '-stimulus[1].start', args.start,
-           '-stimulus[1].npls',  args.tend/args.bcl,
-           '-stimulus[1].bcl',  args.bcl,
-
-           '-stimulus[2].vtx_fcn', 1,
-           '-stimulus[2].vtx_file', "LV_sf.vtx",
-           '-stimulus[2].stimtype',  0,
-           '-stimulus[2].strength', args.strength,
-           '-stimulus[2].duration', args.duration,
-           '-stimulus[2].start', args.start,
-           '-stimulus[2].npls',  args.tend/args.bcl,
-           '-stimulus[2].bcl',  args.bcl,
-
-           '-stimulus[3].vtx_fcn', 1,
-           '-stimulus[3].vtx_file', "RV_mod.vtx",
-           '-stimulus[3].stimtype',  0,
-           '-stimulus[3].strength', args.strength,
-           '-stimulus[3].duration', args.duration,
-           '-stimulus[3].start', args.start,
-           '-stimulus[3].npls',  args.tend/args.bcl,
-           '-stimulus[3].bcl',  args.bcl,
-
-           '-stimulus[4].vtx_fcn', 1,
-           '-stimulus[4].vtx_file', "RV_sf.vtx",
-           '-stimulus[4].stimtype',  0,
-           '-stimulus[4].strength', args.strength,
-           '-stimulus[4].duration', args.duration,
-           '-stimulus[4].start', args.start,
-           '-stimulus[4].npls',  args.tend/args.bcl,
-           '-stimulus[4].bcl',  args.bcl,
-            
-
-           #ATP stimulus
-
-           '-stimulus[5].vtx_fcn', 1,
-           '-stimulus[5].vtx_file', args.ATP_stimsite,
-           '-stimulus[5].stimtype',  0,
-           '-stimulus[5].strength', args.ATP_strength,
-           '-stimulus[5].duration', args.ATP_duration,
-           '-stimulus[5].start', args.ATP_start,
-           '-stimulus[5].npls',  args.ATP_pls,
-           '-stimulus[5].bcl',  ATP_cl,
+           '-stimulus[1].vtx_file', args.ATP_stimsite,
+           '-stimulus[1].stimtype',  0, #Transmembrane Stimulus
+           '-stimulus[1].strength', args.ATP_strength,
+           '-stimulus[1].duration', args.ATP_duration,
+           '-stimulus[1].start', args.ATP_start,
+           '-stimulus[1].npls',  args.ATP_pls,
+           '-stimulus[1].bcl',  ATP_cl,
             
     ]
 
@@ -292,10 +273,9 @@ def run(args, job):
     
     cmd += [
              '-post_processing_opts', 1, 
-             '-phie_rec_ptf', 'electrodesICD',
+             '-phie_rec_ptf', args.electrodes,
              '-phie_recovery_file', 'phie',
              '-phie_rec_meth', 1,
-             #'-compute_APD', 1
                ]
 
 

@@ -1,5 +1,4 @@
-# Script to extract the Phie recordings from the ICD leads during a simulation - Dumps the ascii file into the simulation file in which the phie file is stored
-# TO-DO: Find a way to stop the extra file being generated when running this script! 
+# Script to extract the Phie recordings from the ICD leads during a simulation: Generates a readable ascii file of the traces. 
 import os
 from datetime import date
 import glob
