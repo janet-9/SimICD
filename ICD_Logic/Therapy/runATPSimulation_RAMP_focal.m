@@ -1,5 +1,5 @@
 
-outputFile = runATPSimulation_focal(Simscript, mesh, myocardium, scar_flag, scar_region, isthmus_region, conmul, input_state, model, tend, bcl, strength, duration, start, NSR_vtx, electrodes, output_res, check, ATP_start, ATP_pls, ATP_cl, ATP_strength, ATP_duration, ATP_stimsite, ATP_Min_Cycle, nprocs, pythonExe)
+function outputFile = runATPSimulation_RAMP_focal(Simscript, mesh, myocardium, scar_flag, scar_region, isthmus_region, conmul, input_state, model, tend, bcl, strength, duration, start, NSR_vtx, electrodes, output_res, check, ATP_start, ATP_pls, ATP_cl, ATP_strength, ATP_duration, ATP_stimsite, ATP_dec, ATP_Min_Cycle, nprocs, pythonExe)
     % runATPSimulation_focal Executes a Python script for ATP therapy simulation.
     %   outputFile = runATPSimulation(Simscript, mesh, conmul, input_state, tend, check, ATP_start, ATP_cl, nprocs, pythonExe)
     %   runs the specified Python script with the given parameters and returns the generated output file name.
@@ -8,7 +8,7 @@ outputFile = runATPSimulation_focal(Simscript, mesh, myocardium, scar_flag, scar
     originalDir = pwd;
 
     % Change to the target directory where the simulation should be executed
-    simDir = fullfile(originalDir, 'Sim_Files', 'Episode_Sim_Scripts', 'Reentrant_VT');
+    simDir = fullfile(originalDir, 'Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT');
     cd(simDir);
 
     % Extract just the filename from the input_state path

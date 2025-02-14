@@ -1,4 +1,4 @@
-function ATP_param = calculate_therapy_parameters(outputFile, ICD_diagnosis, varargin)
+function ATP_param = calculate_therapy_parameters_focal(outputFile, ICD_diagnosis, varargin)
 % calculate_therapy_parameters: Calculates ATP parameters and prepares for therapy simulation.
 %
 % Parameters:
@@ -40,7 +40,7 @@ end
 
 
 % Define the simulation folder
- simFolder = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Reentrant_VT', outputFile);
+ simFolder = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT', outputFile);
 
 % Extract necessary values from ICD_diagnosis for therapy parameter
 % calculations
@@ -88,7 +88,7 @@ end
 
 % Move the closest file to the base folder
 sourceFile = fullfile(simFolder, closestFilename);
-destFile = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Reentrant_VT', closestFilename); % Move to the base folder
+destFile = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT', closestFilename); % Move to the base folder
 movefile(sourceFile, destFile);  % Move the file
 
 % Save the input state for ATP therapy
@@ -97,7 +97,7 @@ fprintf('Launch ATP therapy from: %s\n', closestFilename);
 
 
 % Save the ATP parameters for therapy
-saveFilename = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Reentrant_VT', 'ATP_parameters.mat');
+saveFilename = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT', 'ATP_parameters.mat');
 save(saveFilename, 'ATP_param');
 disp(ATP_param);
 

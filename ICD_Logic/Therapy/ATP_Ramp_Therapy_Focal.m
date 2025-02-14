@@ -1,4 +1,5 @@
-function [outputFile, Redetect_param] = ATP_Ramp_Therapy_Focal(ATP_param, mesh, conmul, nprocs, pythonExe, full_sim_time, bcl, check)
+function [outputFile, Redetect_param] = ATP_Ramp_Therapy_Focal(ATP_param, mesh, myocardium, scar_flag, scar_region, isthmus_region, conmul, nprocs, pythonExe, full_sim_time, bcl, check, model, strength, duration, start, NSR_vtx, electrodes, output_res)
+    % This function delivers a round of ATP therapy to the desired episode,
     % This function delivers a round of ATP therapy to the desired episode,
     % finding the input state from the initial episode simulation, and
     % outputs an EGM demonstrating that therapy has been delivered. 
@@ -14,6 +15,11 @@ function [outputFile, Redetect_param] = ATP_Ramp_Therapy_Focal(ATP_param, mesh, 
     ATP_Min_Cycle = ATP_param.Min_Cycle;
     ATP_pls= ATP_param.ATP_pls;
 
+    ATP_strength = ATP_param.ATP_strength;
+    ATP_duration = ATP_param.ATP_duration;
+    ATP_stimsite = ATP_param.ATP_stimsite;
+
+
     % Set names for the ATP EGM 
     EGM_name = strcat('EGM_ATP_', string(ATP_start));
     EGM_features_name = strcat('EGM_features_ATP_', string(ATP_start)) ;
@@ -27,7 +33,7 @@ function [outputFile, Redetect_param] = ATP_Ramp_Therapy_Focal(ATP_param, mesh, 
 
     % Step 3: Run the ATP simulation
     disp('Launching ATP therapy...');
-    outputFile = runATPSimulation_RAMP(Therapy_script, mesh, conmul, input_state, tend, check, ATP_start, ATP_cl, ATP_dec, ATP_Min_Cycle, ATP_pls, nprocs, pythonExe);
+    outputFile = runATPSimulation_RAMP_focal(Therapy_script, mesh, myocardium, scar_flag, scar_region, isthmus_region, conmul, input_state, model, tend, bcl, strength, duration, start, NSR_vtx, electrodes, output_res, check, ATP_start, ATP_pls, ATP_cl, ATP_strength, ATP_duration, ATP_stimsite, ATP_dec, ATP_Min_Cycle, nprocs, pythonExe);
     disp(['Output file: ', outputFile]);
 
     % Step 4: Analyse the results of the ATP simulation

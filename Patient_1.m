@@ -145,7 +145,7 @@ while(true)
         disp('ATP Therapy Availability Threshold Exceeded - Shock Required!');
 
         %Terminate background episode simulation
-        killCommand = sprintf('pkill -u $(whomai) "openCARP" > /dev/null 2>&1 ');
+        killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
         [~, ~] = system(killCommand);  % Suppresses the output
         disp('Initial Episode Simulation Ended...');
 
@@ -536,7 +536,7 @@ while(true)
     elseif VF >= 1 && history(3) >= 2 %QC therapy already applied:
         disp('VF Called: Available Therapies Unsuccessful - Shock Required!')
         %Terminate background episode simulation
-        killCommand = sprintf('pkill -u $(whomai) "openCARP" > /dev/null 2>&1 ');
+        killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
         [~, ~] = system(killCommand);  % Suppresses the output
         disp('Initial Episode Simulation Ended...');
 
@@ -545,7 +545,7 @@ while(true)
     elseif VT >= 1 && history(2) >= 3 %Both rounds of ATP already delivered:
         disp('VT Called: Available Therapies Unsuccessful - Shock Required!')
          %Terminate background episode simulation
-        killCommand = sprintf('pkill -u $(whomai) "openCARP" > /dev/null 2>&1 ');
+        killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
         [~, ~] = system(killCommand);  % Suppresses the output
         disp('Initial Episode Simulation Ended...');
 
@@ -554,7 +554,7 @@ while(true)
     elseif VT1 >= 1 && history(1) >= 3 %Both rounds of ATP already delivered:
         disp('VT1 Called: Available Therapies Unsuccessful - Shock Required!')
         %Terminate background episode simulation
-        killCommand = sprintf('pkill -u $(whomai) "openCARP" > /dev/null 2>&1 ');
+        killCommand = sprintf('pkill -u k23086865 "openCARP" > /dev/null 2>&1 ');
         [~, ~] = system(killCommand);  % Suppresses the output
         disp('Initial Episode Simulation Ended...');
 

@@ -12,8 +12,8 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, me
     %       pythonScript       - Full path to the icd traces extraction
     %       file
     %       simFolder          - Simulation folder to pass to the Python script
-    %       phieName           - Name of the extracted phie traces to pass to the Python script
-    %       PAt_filename       - Full path to the ASCII file for PAt data
+    %       phieName           - Name of the extracted phie traces to pass
+    %       to the Python script 
     %       ICD_Traces_filename- Full path to the ASCII file for ICD Traces data
     %       EGM_name           - Name for the EGM structure to be saved
     %
