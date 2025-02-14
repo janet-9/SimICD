@@ -52,5 +52,5 @@ python run_therapy.py
 - File Processing functions for extraction and monitoring of data. 
 
 
-- Author - [hannah.lydon@kcl.ac.uk](mailto:your-email@example.com)
-- GitHub: [janet-9](https://github.com/your-username)
+- Author - [hannah.lydon@kcl.ac.uk](mailto:hannah.lydon@kcl.ac.uk)
+- GitHub: [janet-9](https://github.com/janet-9)
