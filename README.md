@@ -1,7 +1,5 @@
 
-# Project Name
-
-SimICD 
+# SimICD: Closed Loop ICD Simulations
 
 ## Description
 
