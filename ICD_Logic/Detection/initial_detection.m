@@ -1,4 +1,4 @@
-function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, message]= initial_detection(phie_filePath, monitorDuration, pythonExe, pythonScript, simFolder, phieName, ICD_Traces_filename, EGM_name, NSR_temp, tend)
+function [EGM, EGM_features, ICD_diagnosis, message]= initial_detection(phie_filePath, monitorDuration, pythonExe, pythonScript, simFolder, phieName, ICD_Traces_filename, EGM_name, NSR_temp, tend)
     % MONITOR_FILE Monitors a specified file for updates and calls a Python function if updated,
     % followed by a MATLAB function to process the resulting ASCII files and analyze the EGM.
     %   MONITOR_FILE(phie_filePath, monitorDuration, pythonExe, pythonScript, simFolder, phieName, PAt_filename, ICD_Traces_filename, EGM_name) 
@@ -61,7 +61,7 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, me
 
                         
                         % Analyze the generated EGM
-                        [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, message] = analyze_EGM(EGM_name, NSR_temp);
+                        [EGM, EGM_features, ~, ~, ICD_diagnosis, message] = analyze_EGM(EGM_name, NSR_temp);
                         
                         % Check if message status of the ICD has changed -
                         % this will break the monitoring loop 
@@ -84,13 +84,13 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, me
                         end
 
                     catch ME
-                        %disp(['Error generating EGM structure: ', ME.message]);
+                        disp(['Error generating EGM structure: ', ME.message]);
                     end
                 else
-                    disp('ASCII files not found. Skipping EGM structure generation.');
+                    disp('No electrode data found...Ensure simulation is running as expected!');
                 end
-            %else
-                %disp('No change in file size.');
+            else
+                disp('No change in file size...Ensure simulation is running as expected!');
             end
 
             % Pause for a while before checking again - check every 1 second

@@ -1,4 +1,4 @@
-function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_initial_reentrant(simulationDuration, outputFile, EGM_name, EGM_features_name, NSR_temp, tend)
+function [ICD_diagnosis] = monitor_initial_reentrant(simulationDuration, outputFile, EGM_name, EGM_features_name, NSR_temp, tend)
     % monitor_initial: Monitor the simulation for arrhythmias and return diagnosis.
     % 
     % Parameters:
@@ -31,7 +31,7 @@ function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = 
    
     % Monitor the file and call the Python script if updated
     disp('ICD Monitoring in Progress...');
-    [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, ~] = initial_detection(phie_filePath, simulationDuration, pythonExe, pythonScript, simFolder, phieName, ICD_traces_file, EGM_name, NSR_temp, tend);
+    [EGM, EGM_features, ~, ~, ICD_diagnosis, ~] = initial_detection(phie_filePath, simulationDuration, pythonExe, pythonScript, simFolder, phieName, ICD_traces_file, EGM_name, NSR_temp, tend);
 
     % Save the relevant structures:
     % EGM (raw)

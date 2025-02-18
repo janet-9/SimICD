@@ -2,6 +2,8 @@ function generateEGMStructure_fromascii(ICD_Traces_filename, EGM_name)
     % Read in data from the ASCII file
     ICD_Traces_data = load_ascii_data(ICD_Traces_filename);
 
+
+    %% This can be edited to fit the electrode sites provided for the mesh
     % Extract columns from the loaded data:  CAN, RVCoil, RVRing, RVTip
     Can = ICD_Traces_data(:, 2);
     RVCoil = ICD_Traces_data(:, 3);
@@ -11,13 +13,12 @@ function generateEGMStructure_fromascii(ICD_Traces_filename, EGM_name)
     % Calculate bipolar recordings
     v_raw = RVRing - RVTip;
     shock = Can - RVCoil;
-
     lv = length(v_raw);
    
     % Assign extra structures needed for the algorithm
     RVin = zeros(1, lv);
-    lv = length(v_raw);
 
+     %% This can be edited to fit the electrode sites provided for the mesh
 
     % Save the data in an EGM structure
     EGM = struct('VSigRaw', v_raw, 'Shock', shock, 'RVin', RVin);

@@ -1,4 +1,4 @@
-function [outputFile, Redetect_param] = ATP_Burst_Therapy_reentrant(ATP_param, mesh, conmul, nprocs, pythonExe, full_sim_time, bcl, check, NSR_temp)
+function [outputFile, Redetect_param] = ATP_Burst_Therapy_reentrant(ATP_param, mesh, myocardium, scar_flag, scar_region, isthmus_region, conmul, nprocs, pythonExe, full_sim_time, bcl, check, model, strength, duration, start, NSR_vtx, electrodes, output_res)
     % This function delivers a round of ATP therapy to the desired episode,
     % finding the input state from the initial episode simulation, and
     % outputs an EGM demonstrating that therapy has been delivered. It then
@@ -27,7 +27,7 @@ function [outputFile, Redetect_param] = ATP_Burst_Therapy_reentrant(ATP_param, m
 
     % Step 3: Run the ATP simulation
     disp('Launching ATP therapy...');
-    outputFile = runATPSimulation(Therapy_script, mesh, conmul, input_state, tend, check, ATP_start, ATP_cl, ATP_pls, ATP_Min_Cycle, nprocs, pythonExe);
+    outputFile = runATPSimulation_reentrant(Therapy_script, mesh, myocardium, scar_flag, scar_region, isthmus_region, conmul, input_state, model, tend, bcl, strength, duration, start, NSR_vtx, electrodes, output_res, check, ATP_start, ATP_pls, ATP_cl, ATP_strength, ATP_duration, ATP_stimsite, ATP_Min_Cycle, nprocs, pythonExe);
     disp(['Output file: ', outputFile]);
 
     % Step 4: Analyse the results of the ATP simulation

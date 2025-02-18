@@ -27,29 +27,30 @@ To run this project, you need the following dependencies installed:
 - pip
 - Compatible operating system (Windows, macOS, or Linux)
 
-- openCARP and necessary packages installed on the machine that you are using (carputils, meshtool, meshalyzer)
-(Details on how to install these can be found at the openCARP website: https://opencarp.org)
+- openCARP and necessary packages installed on the machine that you are using, plus meshes, electrodes and stimulus sites for modelling episodes and therapy. Details on how to create these can be found at the openCARP website: https://opencarp.org  
 
-- To use the example scripts provided, you require:
-    - Mesh files (meshname.elem, meshname.lon, meshname.pts, meshname.surf)
-    - NSR.vtx files (stimulus sites for NSR rhythm)
-    - ATP.vtx (Stimulus site for the ATP delivery)
-    - If using the Focal VT script you must also provide the Focal.vtx stimulus site 
-
-    - electrodesICD.pts (sites within the mesh to record ICD traces - you will need to edit the 'generate_EGM_from_ascii.m' function in order to correspond to the electrodes that you specify for your simulation. )
-
-
+- To use the carputils scripts provided, you require:
+    - Meshes files (meshname.elem, meshname.lon, meshname.pts, meshname.surf)
 ## Usage
  Currently, this repository cannot be used without the meshes, stimulus sites and electrodes uploaded by the user and is mainly used to demonstrate the codebase features.
  Two generic scripts are provided that are designed to use the carputils scripts found in 'Sim_Files'. 
 
- 1. A_Focal_VT_Patient.m 
- 2. B_Reentrant_VT_Patient.m 
- 
- Both of these scripts can be run directly in matlab (with optional arguments found in the pre-amble of the scripts) using the command 
 
- matlab -batch '{A_Focal/B_Reentrant}_VT_Patient' 
 
+
+
+
+<!-- This is a commented out line in the README 
+To run the virtual ICD scripts:
+```sh
+python run_icd.py
+```
+
+To execute therapy scripts:
+```sh
+python run_therapy.py 
+```
+-->
 
 ## Features
 

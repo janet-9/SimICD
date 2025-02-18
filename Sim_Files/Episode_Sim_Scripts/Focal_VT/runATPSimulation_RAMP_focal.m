@@ -30,9 +30,6 @@ function outputFile = runATPSimulation_RAMP_focal(Simscript, mesh, conmul, input
     cmd = sprintf('"%s" "%s" --np %d --mesh "%s" --conmul %.2f --input_state "%s" --tend %.2f --check %.2f --ATP_start %.2f --ATP_cl %.2f  --ATP_dec %.2f --ATP_Min_Cycle %.2f --ATP_pls %.2f', ...
                   pythonExe, Simscript, nprocs, mesh, conmul, input_state, tend, check, ATP_start, ATP_cl, ATP_dec, ATP_Min_Cycle, ATP_pls);
 
-    % Display the command to ensure it's correctly constructed
-    %disp('Running command:');
-    %disp(cmd);
 
     % Run the Python script and capture the output
     [status, cmdout] = system(cmd);
