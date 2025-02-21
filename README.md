@@ -37,9 +37,10 @@ To run this project, you need the following dependencies installed:
     - ATP.vtx (Stimulus site for the ATP delivery)
     - If using the Focal VT script you must also provide the Focal.vtx stimulus site 
     - electrodesICD.pts (sites within the mesh to record ICD traces)
-NOTE: You can find information on how to structure the above files at the openCARP website: https://opencarp.org
-      You will need to structure your electrodeICD.pts file in the following order: CAN, RVCoil, RVRing, RVTip 
-      If you wish to structure your electrodes differently, you will need to edit the 'generate_EGM_from_ascii.m' function in order to correspond to the electrodes that you specify for your simulation. )
+NOTE:
+- You can find information on how to structure the above files at the openCARP website: https://opencarp.org
+- You will need to structure your electrodeICD.pts file in the following order: CAN, RVCoil, RVRing, RVTip 
+- If you wish to structure your electrodes differently, you will need to edit the 'generate_EGM_from_ascii.m' function in order to correspond to the electrodes that you specify for your simulation. )
 
 
 ## Usage
@@ -53,7 +54,7 @@ NOTE: You can find information on how to structure the above files at the openCA
  Both of these scripts can be run directly in matlab (with optional arguments found in the pre-amble of the scripts) using the command 
 
  matlab -batch '{A_Focal/B_Reentrant}_VT_Patient(varargin)' 
-
+!<<
 ## Example Results 
 
 Below is an example of a reentrant VT episode and corresponding EGMs, this was simulated on a basic bi-ventricular mesh.  
@@ -66,7 +67,7 @@ Below is an example of a reentrant VT episode and corresponding EGMs, this was s
 
 
 
-
+>>!
 
 ## Features
 
