@@ -15,7 +15,6 @@ C. Sim_Files: Python scripts (using carputils, the python framework used by Open
 
 - [Requirements](#requirements)
 - [Usage](#usage)
-- [Example](#example)
 - [Features](#features)
 - [Contact](#contact)
 
@@ -54,20 +53,6 @@ NOTE:
  Both of these scripts can be run directly in matlab (with optional arguments found in the pre-amble of the scripts) using the command 
 
  matlab -batch '{A_Focal/B_Reentrant}_VT_Patient(varargin)' 
-!<<
-## Example Results 
-
-Below is an example of a reentrant VT episode and corresponding EGMs, this was simulated on a basic bi-ventricular mesh.  
-
-1. Initial reentrant circuit:
-
-
-
-2. Delivery of ATP:
-
-
-
->>!
 
 ## Features
 
