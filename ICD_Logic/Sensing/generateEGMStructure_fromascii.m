@@ -5,6 +5,7 @@ function generateEGMStructure_fromascii(ICD_Traces_filename, EGM_name)
 
     %% This can be edited to fit the electrode sites provided for the mesh
     % Extract columns from the loaded data:  CAN, RVCoil, RVRing, RVTip
+    % The first column will be the time
     Can = ICD_Traces_data(:, 2);
     RVCoil = ICD_Traces_data(:, 3);
     RVRing = ICD_Traces_data(:, 4);
