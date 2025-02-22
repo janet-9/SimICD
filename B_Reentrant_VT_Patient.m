@@ -11,26 +11,26 @@ defaults = {
     8.00, ...               % ATP Pulses
     10.00, ...              % ATP Cycle Length Decrement
     220.00, ...             % ATP Min Cycle Length
-    'meshname', ...         % mesh
+    'meshes/meshname', ...         % mesh
     1, ...                  % myocardium region tag
     1, ...                  % scar_flag
     2, ...                  % scar_region tag
     3, ...                  % isthmus_region tag
     1.0, ...                % conmul
-    'input_1000.roe', ...   % input_state
+    'input_states/input_1000.roe', ...   % input_state
     'tenTusscherPanfilov', ... % cell model
     800, ...                % bcl for NSR
     450, ...                % strength for NSR
     4, ...                  % duration for NSR
     0, ...                  % start for NSR
-    'EGM_NSR', ...          % Template for NSR trace
-    'NSR.vtx', ...          % NSR_vtx
-    'electrodesICD.pts', ...   % electrodes points file
+    'NSR_temps/EGM_NSR', ...          % Template for NSR trace
+    'stim_sites/NSR.vtx', ...          % NSR_vtx
+    'electrodes/electrodesICD.pts', ...   % electrodes points file
     1, ...                  % output resolution
     1000, ...               % checkpoint
     450, ...                % ATP_strength
     4, ...                  % ATP_duration
-    'ATP.vtx', ...          % ATP_stimsite
+    'stim_sites/ATP.vtx', ...          % ATP_stimsite
     [3 3 2], ...            % Max number of therapy calls
     };
 
