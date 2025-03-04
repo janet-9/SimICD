@@ -59,16 +59,20 @@ To use the example scripts provided, you will need:
 
 ## Usage
 
-To run the example scripts, upload the required files mentioned above into the folder of the episode type you wish to simulate. The two generic scripts provided are designed to use the *carputils* scripts found in *Sim_Files*, and are as follows:
+- To run the example scripts, upload the required files mentioned above into the folder of the episode type you wish to simulate. The two generic scripts provided are designed to use the *carputils* scripts found in *Sim_Files*.  
+
+- Both of these scripts can be run directly in MATLAB (with optional arguments found in the pre-amble of the scripts) using the following commands with your own variable arguments:
 
 1. **A_Focal_VT_Patient.m**
-2. **B_Reentrant_VT_Patient.m**
-
-Both of these scripts can be run directly in MATLAB (with optional arguments found in the pre-amble of the scripts) using the following command:
 
 ```bash
-matlab -batch '{A_Focal/B_Reentrant}_VT_Patient(varargin)'
-```bash 
+matlab -batch 'A_Focal_VT_Patient(varargin)'
+```
+2. **B_Reentrant_VT_Patient.m**
+
+```bash
+matlab -batch 'B_Reentrant_VT_Patient(varargin)'
+```
 
 ## Features
 
@@ -81,3 +85,5 @@ matlab -batch '{A_Focal/B_Reentrant}_VT_Patient(varargin)'
 ## Contact 
 - Any Queries regarding the codebase, please contact:  [hannah.lydon@kcl.ac.uk](mailto:hannah.lydon@kcl.ac.uk)
 - GitHub: [janet-9](https://github.com/janet-9)
+
+
