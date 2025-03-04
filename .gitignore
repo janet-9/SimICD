@@ -1,24 +1,13 @@
 # Ignore mesh data files (e.g., meshes, electrodes, stimulus sites)
-*.vtx        # Ignore VTX files (stimulus sites, etc.)
-*.elem       # Ignore mesh element files
-*.lon        # Ignore mesh longitude files
-*.pts        # Ignore mesh point files
-*.surf       # Ignore mesh surface files
-*.pts_t      # Ignore mesh point translation files
-*.roe        # Ignore files related to regional optimization/evaluation (if applicable)
-*.trc        # Ignore trace files (if used in simulations)
-
-# Ignore incomplete universal patient scripts
-Focal_VT_Patient.m   # Focal VT patient script (incomplete)
-Reentrant_VT_Patient.m   # Reentrant VT patient script (incomplete)
-run_simulation_NSR.m   # NSR simulation script (incomplete)
-
-# Optionally, you can also ignore any temporary or backup files that may be generated
-*~            # Ignore temporary files created by text editors
-*.bak         # Ignore backup files
-*.swp         # Ignore swap files (e.g., for Vim)
-*.tmp         # Ignore temporary files
-
-# Ignore MATLAB-specific files (optional)
-*.asv         # MATLAB autosave files
+*.vtx       
+*.elem       
+*.lon        
+*.pts        
+*.surf       
+*.pts_t      
+*.roe        
+*.trc        
+Focal_VT_Patient.m   
+Reentrant_VT_Patient.m   
+run_simulation_NSR.m 
 
