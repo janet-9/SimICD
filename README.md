@@ -1,15 +1,29 @@
 
 # SimICD: Closed Loop ICD Simulations
 
+
 ## Description
 
-This is the codebase for SimICD, a tool for the closed loop simulation of cardiac EP episodes and virtual ICD logic modelled after the Boston Scientific single chamber transvenous ICD (https://www.bostonscientific.com/en-US/home.html). Examples of episode simulations can be found in the paper: 'SimICD: A Closed-Loop Framework for ICD Modelling'
+This is the codebase for **SimICD**, a tool for the closed-loop simulation of cardiac EP episodes and virtual ICD logic modeled after the Boston Scientific single chamber transvenous ICD ([Boston Scientific](https://www.bostonscientific.com/en-US/home.html)). Examples of episode simulations can be found in the paper: *'SimICD: A Closed-Loop Framework for ICD Modelling'*.
 
 The base consists of:
-A. ICD_Logic: Contains the sensing and discrimination algorithms for descision making during simulations, the therapy presciption scripts and calls to and from the simulator to translate the data from the EP simulations into EGMs. 
-B. NSR_Temps: Templates of EGMs representing normal sinus rhythm that can be used in morphology analysis. 
-C. Sim_Files: Python scripts (using carputils, the python framework used by OpenCARP - https://opencarp.org) for running episodes of NSR, focal VT and re-entrant VT. Users are invited to upload their own meshes, stimulus sites and electrode sites in order to run simulations and are welcome to the tailor the simulation scripts to meet the requirements of their own experiments. 
 
+### A. ICD_Logic:
+Contains the sensing and discrimination algorithms for decision-making during simulations, therapy prescription scripts, and calls to and from the simulator to translate the data from the EP simulations into EGMs.  
+  - **i. Sensing**: Scripts for generating EGMs from simulated data and extracting key features.
+  - **ii. Detection**: Scripts for utilizing the discrimination algorithm and making therapy decisions.
+  - **iii. Therapy**: Scripts for implementing and analyzing therapy decisions.
+
+### B. NSR_Temps:
+Templates of EGMs representing normal sinus rhythm that can be used in morphology analysis.  
+  Users can either use these templates or generate their own using a custom mesh, which can be done using the NSR script provided in *Sim_Files*.
+
+### C. Sim_Files:
+Python scripts (using *carputils*, the Python framework used by OpenCARP - [OpenCARP](https://opencarp.org)) for running the cardiac simulations. These include:
+  - **i. Focal VT**
+  - **ii. Re-entrant VT**
+
+Users are invited to upload their own meshes, stimulus sites, and electrode sites in order to run simulations. They are also welcome to tailor the simulation scripts to meet their specific experimental requirements.
 
 ## Table of Contents
 
@@ -20,39 +34,41 @@ C. Sim_Files: Python scripts (using carputils, the python framework used by Open
 
 ## Requirements
 
-To run this project, you need the following dependencies installed:
+To run this project, the following dependencies need to be installed:
 
-- Python 3.8.10
-- MATLAB version R2023b 
-- pip
-- Compatibility with Linux OS 
+- **Python 3.8.10**
+- **MATLAB version R2023b**
+- **pip** (Python package manager)
+- **Linux OS compatibility**
 
-- openCARP and necessary packages installed on the machine that you are using (carputils, meshtool, meshalyzer)
-(Details on how to install these can be found at the openCARP website: https://opencarp.org)
+Additionally, **openCARP** and necessary packages must be installed on the machine you are using (including *carputils*, *meshtool*, and *meshalyzer*).  
+(Details on how to install these can be found on the [openCARP website](https://opencarp.org)).
 
-- To use the example scripts provided, you require:
-    - Mesh files (meshname.elem, meshname.lon, meshname.pts, meshname.surf)
-    - NSR.vtx files (stimulus sites for NSR rhythm)
-    - ATP.vtx (Stimulus site for the ATP delivery)
-    - If using the Focal VT script you must also provide the Focal.vtx stimulus site 
-    - electrodesICD.pts (sites within the mesh to record ICD traces)
-NOTE:
-- You can find information on how to structure the above files at the openCARP website: https://opencarp.org
-- You will need to structure your electrodeICD.pts file in the following order: CAN, RVCoil, RVRing, RVTip 
-- If you wish to structure your electrodes differently, you will need to edit the 'generate_EGM_from_ascii.m' function in order to correspond to the electrodes that you specify for your simulation. )
+### Required Files:
+To use the example scripts provided, you will need:
+- Mesh files (`meshname.elem`, `meshname.lon`, `meshname.pts`, `meshname.surf`)
+- **NSR.vtx** files (stimulus sites for NSR rhythm)
+- **ATP.vtx** (stimulus site for ATP delivery)
+- For the **Focal VT** script, you must also provide the **Focal.vtx** stimulus site
+- **electrodesICD.pts** (sites within the mesh to record ICD traces)
 
+**Note:**
+- For details on how to structure the required files, visit the [openCARP website](https://opencarp.org).
+- The **electrodeICD.pts** file must be structured in this order: `CAN`, `RVCoil`, `RVRing`, `RVTip`.
+- If you wish to structure your electrodes differently, you will need to edit the `generate_EGM_from_ascii.m` function to match the electrodes you specify for your simulation.
 
 ## Usage
 
- To run the example scripts provided, you will need to upload the required files mentioned above withtin the Sim_Files/Episode_Scripts/Focal_VT OR Sim_Files/Episode_Scripts/Reentrant_VT depending on which type of episode you wish to simulate. 
- The two generic scripts provided are designed to use the carputils scripts found in 'Sim_Files', and are called:
+To run the example scripts, upload the required files mentioned above into the folder of the episode type you wish to simulate. The two generic scripts provided are designed to use the *carputils* scripts found in *Sim_Files*, and are as follows:
 
- 1. A_Focal_VT_Patient.m 
- 2. B_Reentrant_VT_Patient.m 
- 
- Both of these scripts can be run directly in matlab (with optional arguments found in the pre-amble of the scripts) using the command 
+1. **A_Focal_VT_Patient.m**
+2. **B_Reentrant_VT_Patient.m**
 
- matlab -batch '{A_Focal/B_Reentrant}_VT_Patient(varargin)' 
+Both of these scripts can be run directly in MATLAB (with optional arguments found in the pre-amble of the scripts) using the following command:
+
+```bash
+matlab -batch '{A_Focal/B_Reentrant}_VT_Patient(varargin)'
+```bash 
 
 ## Features
 

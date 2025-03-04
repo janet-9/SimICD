@@ -89,7 +89,7 @@ def parser():
 
 def jobID(args):
     today = date.today()
-    ID = '{}_{}_INPUT_{}_conmul_{:.2f}'.format(today.isoformat(), args.mesh, args.input_state, args.conmul)
+    ID = '{}_{}_NSR_INPUT_{}'.format(today.isoformat(), args.mesh, args.input_state)
     return ID
 
 @tools.carpexample(parser, jobID)

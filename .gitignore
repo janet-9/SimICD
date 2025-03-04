@@ -11,3 +11,4 @@
 *.trc
 Focal_VT_Patient.m
 Reentrant_VT_Patient.m 
+run_simulation_NSR.m
