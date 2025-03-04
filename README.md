@@ -4,7 +4,7 @@
 
 ## Description
 
-This is the codebase for **SimICD**, a tool for the closed-loop simulation of cardiac EP episodes and virtual ICD logic modeled after the Boston Scientific single chamber transvenous ICD ([Boston Scientific](https://www.bostonscientific.com/en-US/home.html)). Examples of episode simulations can be found in the paper: *'SimICD: A Closed-Loop Framework for ICD Modelling'*.
+This is the codebase for **SimICD**, a tool for the closed-loop simulation of cardiac EP episodes and virtual ICD logic modeled after the Boston Scientific single chamber transvenous ICD ([Boston Scientific](https://www.bostonscientific.com/en-US/home.html)). Examples of episode simulations can be found in the paper: *'SimICD: A Closed-Loop Framework for ICD Modelling'*. The scripts used to generate the experiments detailed in the paper can be found in *Paper_Scripts*.
 
 The base consists of:
 
