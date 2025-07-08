@@ -15,7 +15,7 @@ Contains the sensing and discrimination algorithms for decision-making during si
   - **iii. Therapy**: Implementing and analyzing therapy decisions.
 
 ### B. NSR_Temps:
-A template of an EGM representing normal sinus rhythm (NSR)that can be used in morphology analysis.  
+A template of an EGM representing normal sinus rhythm (NSR) that can be used in morphology analysis.  
   Users can either use this template or generate their own using a custom mesh, which can be done using the *carputils* script for NSR provided and passing the results of the simulation using **phie_extract.py** and **generate_egm_from_ascii.m** to create a new NSR template.
 
 ### C. Sim_Files:
