@@ -33,7 +33,7 @@ def run(args, job):
     # Run igbextract
     cmd = [settings.execs.igbextract,
                '-o', 'asciiTm',
-               '-O', '{}/{}'.format(args.sim_folder,args.phie_name),
+               '-O', '{}/{}'.format(args.sim_folder, args.phie_name),
                os.path.join(args.sim_folder, 'phie.igb')]
     job.bash(cmd)
 

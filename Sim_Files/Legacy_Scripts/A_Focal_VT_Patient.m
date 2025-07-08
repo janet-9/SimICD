@@ -63,12 +63,12 @@ disp('Default Parameter Values:');
 fprintf('\n');
 fprintf('--- Focal VT Episode Information ---\n');
 fprintf('Focal Beat Location (VTX): %s\n', ectopic);
-fprintf('Start Time for Focal Beats: %.2f\n', focal_start);
+fprintf('Start Time for Focal Beats: %.2f ms\n', focal_start);
 fprintf('Number of Focal Episodes: %.2f\n', episodes);
 fprintf('Interval Between Episodes: %.2f ms\n', episode_interval);
 fprintf('Number of Focal Pulses: %.2f\n', focal_pls);
 fprintf('Pulse Interval for Focal Pulses: %.2f ms\n', focal_bcl);
-fprintf('Strength of Focal Pulses: %.2f\n', focal_strength);
+fprintf('Strength of Focal Pulses: %.2f uA/cm^2\n', focal_strength);
 fprintf('Duration of Focal Pulses: %.2f ms\n', focal_duration);
 
 fprintf('\n');
@@ -78,11 +78,14 @@ fprintf('EGM Features Name: %s\n', EGM_features_name);
 
 fprintf('\n');
 fprintf('--- ATP Therapy Parameters ---\n');
-fprintf('ATP Cycle Length: %.2f\n', ATP_CL);
-fprintf('ATP Coupling Interval: %.2f\n', ATP_coupling);
+fprintf('ATP Strength: %.2f uA/cm^2\n', ATP_strength);
+fprintf('ATP Duration: %.2f ms\n', ATP_duration);
+fprintf('ATP Stimsite: %s\n', ATP_stimsite);
+fprintf('ATP Cycle Length: %.2f ms\n', ATP_CL);
+fprintf('ATP Coupling Interval: %.2f ms\n', ATP_coupling);
 fprintf('ATP Pulses: %.2f\n', ATP_pls);
-fprintf('ATP Cycle Length Decrement: %.2f\n', ATP_dec);
-fprintf('ATP Min Cycle Length: %.2f\n', ATP_Min_Cycle);
+fprintf('ATP Cycle Length Decrement: %.2f ms\n', ATP_dec);
+fprintf('ATP Min Cycle Length: %.2f ms\n', ATP_Min_Cycle);
 
 fprintf('\n');
 fprintf('--- Mesh and Region Information ---\n');
@@ -94,25 +97,23 @@ fprintf('Isthmus Region Tag: %.2f\n', isthmus_region);
 
 fprintf('\n');
 fprintf('--- Additional Parameters ---\n');
-fprintf('Conmul: %.2f\n', conmul);
+fprintf('Conductivity Multiplier: %.2f\n', conmul);
 fprintf('Input State: %s\n', input_state);
 fprintf('Cell Model: %s\n', model);
 fprintf('BCL for NSR: %.2f\n', bcl);
-fprintf('Strength for NSR: %.2f\n', strength);
-fprintf('Duration for NSR: %.2f\n', duration);
-fprintf('Start for NSR: %.2f\n', start);
+fprintf('Strength for NSR: %.2f uA/cm^2\n', strength);
+fprintf('Duration for NSR: %.2f ms\n', duration);
+fprintf('Start for NSR: %.2f ms\n', start);
 fprintf('NSR Template: %s\n', NSR_vtx);
 fprintf('NSR VTX: %s\n', NSR_vtx);
 fprintf('Electrodes Points File: %s\n', electrodes);
 fprintf('Output Resolution: %.2f\n', output_res);
-fprintf('Checkpoint: %.2f\n', check);
-fprintf('ATP Strength: %.2f\n', ATP_strength);
-fprintf('ATP Duration: %.2f\n', ATP_duration);
-fprintf('ATP Stimsite: %s\n', ATP_stimsite);
+fprintf('Checkpoint for saving simulation state: %.2f ms\n', check);
+
 
 fprintf('\n');
 fprintf('--- Therapy Call Limits ---\n');
-fprintf('Max Therapy Calls: %s\n', mat2str([3 3 2]));
+fprintf('Max Therapy Calls [VT1, VT, VF]: %s\n', mat2str([3 3 2]));
 
 
 %% Initialisation of the environment

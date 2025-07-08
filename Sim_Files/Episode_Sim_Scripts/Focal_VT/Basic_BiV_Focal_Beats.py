@@ -118,7 +118,7 @@ def calculate_start_times(args):
 
 def jobID(args):
     today = date.today()
-    ID = '{}_{}_Focal_VT_{}_{:.2f}_episodes_{:.2f}_focal_bcl_{:.2f}_focal_pls_{:.2f}_focal_strength_{:.2f}_focal_duration'.format(today.isoformat(), args.input_state, args.ectopic, args.episodes, args.focal_bcl,
+    ID = '{}_{}_Focal_VT_{}_{:.2f}_episodes_{:.2f}_focal_bcl_{:.2f}_focal_pls_{:.2f}_focal_strength_{:.2f}_focal_duration'.format(today.isoformat(), args.input_state, args.focal_site, args.episodes, args.focal_bcl,
                                 args.focal_pls, args.focal_strength, args.focal_duration)
 
     return ID
@@ -160,8 +160,10 @@ def run(args, job):
     
 
 
-  #Define the conductivities. User must add in their own values or openCARP defaults will be used.  
-    #User must define the regions for myocardium, scar regions and isthmus regions (if present). Border Zone (BZ) regions can be added if desired by the user:
+    #Define the conductivities. User must add in their own values or these default values will be used.  
+    
+    #User must define the regions for myocardium, scar regions and isthmus regions (if present). Border Zone (BZ) regions can be added if desired by the user. 
+
     #Note: Mondomain conductivites will be calculated as half of the harmonic mean of intracellular and extracellular conductivities
 
     if args.scar_flag == 1:
@@ -172,40 +174,39 @@ def run(args, job):
     		'-gregion[0].name', 		"Myocardium",
             '-gregion[0].num_IDs', 1,
             '-gregion[0].ID[0]', args.myocardium,
+          
             
     		
-    		'-gregion[0].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[0].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[0].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[0].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[0].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[0].g_in', 		# intracellular conductivity in sheet direction  
+    		'-gregion[0].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
+    		'-gregion[0].g_et', 		1.253,	# extracellular conductivity in transverse direction
+    		'-gregion[0].g_en', 		0.8295,	# extracellular conductivity in sheet direction
+    		'-gregion[0].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
+    		'-gregion[0].g_it', 		0.35,	# intracellular conductivity in transverse direction
+    		'-gregion[0].g_in', 		0.2345,	# intracellular conductivity in sheet direction
 
             '-gregion[1].name', 		"Scar",
             '-gregion[1].num_IDs', 1,
             '-gregion[1].ID[0]', args.scar_region,
     		
 
-    		'-gregion[1].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[1].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[1].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[1].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[1].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[1].g_in', 		# intracellular conductivity in sheet direction
-    		
+    		'-gregion[1].g_el', 		0.001,	# extracellular conductivity in longitudinal direction
+    		'-gregion[1].g_et', 		0.001,	# extracellular conductivity in transverse direction
+    		'-gregion[1].g_en', 		0.001,	# extracellular conductivity in sheet direction
+    		'-gregion[1].g_il', 		0.001,	# intracellular conductivity in longitudinal direction
+    		'-gregion[1].g_it', 		0.001,	# intracellular conductivity in transverse direction
+    		'-gregion[1].g_in', 		0.001,	# intracellular conductivity in sheet direction
 
             '-gregion[2].name', 		"Isthmus",
             '-gregion[2].num_IDs', 1,
             '-gregion[2].ID[0]', args.isthmus_region,
            
-    		'-gregion[2].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[2].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[2].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[2].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[2].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[2].g_in', 		# intracellular conductivity in sheet direction
+    		'-gregion[2].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
+    		'-gregion[2].g_et', 		1.2530,	# extracellular conductivity in transverse direction
+    		'-gregion[2].g_en', 		0.8295,	# extracellular conductivity in sheet direction
+    		'-gregion[2].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
+    		'-gregion[2].g_it', 		0.3500,	# intracellular conductivity in transverse direction
+    		'-gregion[2].g_in', 		0.2345,	# intracellular conductivity in sheet direction
     		'-gregion[2].g_mult',		args.conmul, #scale all conducitivites by a factor (to alter conduction velocity) 
-
 
                    ]
 
@@ -219,12 +220,12 @@ def run(args, job):
             '-gregion[0].ID[0]', args.myocardium,
           
     
-    		'-gregion[0].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[0].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[0].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[0].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[0].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[0].g_in', 		# intracellular conductivity in sheet direction
+    	    '-gregion[0].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
+    		'-gregion[0].g_et', 		1.253,	# extracellular conductivity in transverse direction
+    		'-gregion[0].g_en', 		0.8295,	# extracellular conductivity in sheet direction
+    		'-gregion[0].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
+    		'-gregion[0].g_it', 		0.35,	# intracellular conductivity in transverse direction
+    		'-gregion[0].g_in', 		0.2345,	# intracellular conductivity in sheet direction
                 ]
 
 
@@ -232,36 +233,37 @@ def run(args, job):
     #Define the stimulus, an underlying NSR rhythm with a varying number of focal beat episodes on top. 
     #start tiimes for the episodes are pre-calculated:
     episode_start_times = calculate_start_times(args) 
-    
 
-# Set the base number of stimuli (5 NSR stimuli)
+    
+    
+    # Set the base number of stimuli (5 NSR stimuli)
     cmd += ['-num_stim', 1 + int(args.episodes)]  # Add the number of focal episodes to the total number of stimuli
 
     #add NSR stimuli 
     cmd += [
             
-           #NSR stimulus
-           '-stimulus[0].vtx_fcn', 1,
-           '-stimulus[0].vtx_file', args.NSR_vtx,
-           '-stimulus[0].stimtype',  0, #Transmembrane Stimulus
-           '-stimulus[0].strength', args.strength,
-           '-stimulus[0].duration', args.duration,
-           '-stimulus[0].start', args.start,
-           '-stimulus[0].npls',  args.tend/args.bcl,
-           '-stimulus[0].bcl',  args.bcl,
+        #NSR stimulus
+        '-stimulus[0].vtx_fcn', 1,
+        '-stimulus[0].vtx_file', args.NSR_vtx,
+        '-stimulus[0].stimtype',  0, #Transmembrane Stimulus
+        '-stimulus[0].strength', args.strength,
+        '-stimulus[0].duration', args.duration,
+        '-stimulus[0].start', args.start,
+        '-stimulus[0].npls',  args.tend/args.bcl,
+        '-stimulus[0].bcl',  args.bcl,
         ]
 
 #Arguments for the focal episodes, same parameters, with options to vary the number and spacing of the episodes
     for i in range(int(args.episodes)):
         cmd += [
-                f'-stimulus[{i}].vtx_fcn', 1,
-                f'-stimulus[{i}].vtx_file', args.ectopic,
-                f'-stimulus[{i}].stimtype', 0, #Transmembrane Stimulus
-                f'-stimulus[{i}].strength', args.focal_strength,
-                f'-stimulus[{i}].duration', args.focal_duration,
-                f'-stimulus[{i}].bcl', args.focal_bcl,
-                f'-stimulus[{i}].start', episode_start_times[i],
-                f'-stimulus[{i}].npls', args.focal_pls,
+                f'-stimulus[{i+1}].vtx_fcn', 1,
+                f'-stimulus[{i+1}].vtx_file', args.focal_site,
+                f'-stimulus[{i+1}].stimtype', 0, #Transmembrane Stimulus
+                f'-stimulus[{i+1}].strength', args.focal_strength,
+                f'-stimulus[{i+1}].duration', args.focal_duration,
+                f'-stimulus[{i+1}].bcl', args.focal_bcl,
+                f'-stimulus[{i+1}].start', episode_start_times[i],
+                f'-stimulus[{i+1}].npls', args.focal_pls,
             ]
 
       #Define outputs and postprocesses

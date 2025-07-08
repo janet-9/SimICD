@@ -1,23 +1,31 @@
-%ICD Logic Tester
+function ICD_LOGIC_TEST(therapy_sig, history, max_therapy_calls)
+% ICD_LOGIC_TEST: Simulates ICD logic using dummy therapy signals.
+%
+% Inputs:
+%   - therapy_sig: Initial therapy signals [VT1, VT, VF] (default: [1 0 0])
+%   - history: Therapy history per zone [VT1_H, VT_H, VF_H] (default: [0 0 0])
+%   - max_therapy_calls: Max therapy allowed per zone [VT1_max, VT_max, VF_max] (default: [3 3 2])
+%
+% Output:
+%   - outcome: String indicating result (e.g., 'Therapy Successful', 'Shock Required')
 
-%Therapy History Tracker Initialisation:
-%History = [ VT1_H, VT_H, VF_H]
-history = [0 0 0];
-VT1_H = history(1);
-VT_H = history(2);
-VF_H = history(3);
+    % Set defaults if arguments are missing
+    if nargin < 1 || isempty(therapy_sig)
+        therapy_sig = [1 0 0]; % Default: VT1 only
+    end
+    if nargin < 2 || isempty(history)
+        history = [0 0 0]; % Default: No prior therapy
+    end
+    if nargin < 3 || isempty(max_therapy_calls)
+        max_therapy_calls = [3 3 2]; % Default max calls per zone
+    end
 
 %Set Maximum Number of Therapy Calls for each Zone 
-max_therapy_calls = [3 3 2];
 VT1_max = max_therapy_calls(1);
 VT_max = max_therapy_calls(2);
 VF_max = max_therapy_calls(3);
 
-
-
 %Load the Therapy Signals and the discrimination state from the initial diagnosis
-
-therapy_sig = [0 0 0];
 [VT1, VT, VF] = reachTh(therapy_sig);
 %ICD_disc_state = ICD_diagnosis.ICD_disc_state;
 
@@ -39,10 +47,6 @@ while(true)
 
 
     elseif VF && history(3) < 2 %QC therapy required - Follow therapy pathway for VF:
-
-        %Set the parameters for QC therapy
-        ATP_CL = 0.88; % Nominal value for the BSc device
-        ATP_coupling = 0.88; % Nominal value for the BSc device
 
         %Save the previous therapy signals for later comparison
         prev_therapySigs = therapy_sig;
@@ -270,4 +274,6 @@ while(true)
       
         break;
     end
+end
+
 end

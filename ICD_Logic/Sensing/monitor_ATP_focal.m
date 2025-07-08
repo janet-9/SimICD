@@ -1,5 +1,4 @@
-function [EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_ATP_focal(outputFile, EGM_name, EGM_features_name, Sim_End)
-   
+function [EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_ATP_focal(outputFile, EGM_name, EGM_features_name, Sim_End, NSR_temp, pythonExe)
     % Pause to allow the simulation to generate necessary files
     pause(5);
    
@@ -11,7 +10,6 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_ATP_foc
 
     % Define the file path for the extraction of the phie traces 
     pythonScript = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT', 'phie_extract.py');
-    pythonExe = 'python'; % Assuming python executable is available in the path
     % Define the name for the extracted phie traces
     phieName = 'phie_icd';
 
@@ -21,7 +19,7 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_ATP_foc
    
     % Monitor the file and call the Python script if updated
     disp('ATP Results...');
-    [EGM, EGM_features, ICD_sense_state, ICD_sense_param] = ATP_detection(phie_filePath, pythonExe, pythonScript, simFolder, phieName, ICD_traces_file, EGM_name);
+    [EGM, EGM_features, ICD_sense_state, ICD_sense_param] = ATP_detection(phie_filePath, pythonExe, pythonScript, simFolder, phieName, ICD_traces_file, EGM_name, NSR_temp);
 
     % Save the relevant structures:
     % EGM (raw)

@@ -1,4 +1,4 @@
-function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, message]= redetection(phie_filePath, monitorDuration, pythonExe, pythonScript, simFolder, phieName,ICD_Traces_filename, EGM_name, therapySigs, NSR_temp)
+function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, message]= redetection(phie_filePath, monitorDuration, pythonExe, pythonScript, simFolder, phieName, ICD_Traces_filename, EGM_name, therapySigs, NSR_temp)
     % MONITOR_FILE Monitors a specified file for updates and calls a Python function if updated,
     % followed by a MATLAB function to process the resulting ASCII files and analyze the EGM.
     %   MONITOR_FILE(phie_filePath, monitorDuration, pythonExe, pythonScript, simFolder, phieName, PAt_filename, ICD_Traces_filename, EGM_name) 
@@ -91,7 +91,7 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, me
                         if numel(lines) >= 10000 %Value hard-coded from the BSc manual
                             disp('End-Of-Episode Timer Expired: Monitoring stopped.');
                             %Terminate background episode simulation
-                            killCommand = sprintf('pkill -u $(whomai) "openCARP" > /dev/null 2>&1 ');
+                            killCommand = sprintf('pkill -u $(whoami) "openCARP" > /dev/null 2>&1 ');
                             system(killCommand);
                             disp('Episode Simulation Ended...');
                             break
@@ -115,7 +115,7 @@ function [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, me
             if toc > monitorDuration
                 disp('Monitoring Duration Expired: Monitoring stopped.');
                 %Terminate background episode simulation
-                killCommand = sprintf('pkill -u $(whomai) "openCARP" > /dev/null 2>&1 ');
+                killCommand = sprintf('pkill -u $(whoami) "openCARP" > /dev/null 2>&1 ');
                 system(killCommand);
                 disp('Initial Episode Simulation Ended...');
                 break

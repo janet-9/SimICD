@@ -47,21 +47,22 @@ function [EGM, EGM_features, ICD_diagnosis, message]= initial_detection(phie_fil
                 % Extract the ICD traces
                 command = sprintf('%s %s --sim_folder %s --phie_name %s', pythonExe, pythonScript, simFolder, phieName);
                 [~, ~] = system(command);
-
+            
                
                 % Print the output of the Python script for debugging
                 %disp('Python script output:');
-                %disp(cmdout);
+                %disp(command);
+
 
                 % Check if ASCII files are produced
                 if exist(ICD_Traces_filename, 'file') == 2
                     % Call the MATLAB function to generate the EGM structure
                     try
+                      
                         generateEGMStructure_fromascii(ICD_Traces_filename, EGM_name);
-
                         
                         % Analyze the generated EGM
-                        [EGM, EGM_features, ~, ~, ICD_diagnosis, message] = analyze_EGM(EGM_name, NSR_temp);
+                        [EGM, EGM_features, ICD_diagnosis, message] = analyze_EGM(EGM_name, NSR_temp);
                         
                         % Check if message status of the ICD has changed -
                         % this will break the monitoring loop 
@@ -72,8 +73,9 @@ function [EGM, EGM_features, ICD_diagnosis, message]= initial_detection(phie_fil
 
                         % Exit condition: Simulation has completed with no
                         % therapy triggered. 
-                        
-                        lines = readlines(fullfile(phie_filePath, ICD_Traces_filename));
+                        % lines = readlines(fullfile(phie_filePath, ICD_Traces_filename));
+
+                        lines = readlines(ICD_Traces_filename);
                         if numel(lines) >= tend
                             disp('Simulation Complete: Monitoring stopped.');
                             %Terminate background episode simulation
@@ -84,17 +86,17 @@ function [EGM, EGM_features, ICD_diagnosis, message]= initial_detection(phie_fil
                         end
 
                     catch ME
-                        disp(['Error generating EGM structure: ', ME.message]);
+                        %disp(['Error generating EGM structure: ', ME.message]);
                     end
                 else
                     disp('No electrode data found...Ensure simulation is running as expected!');
                 end
             else
-                disp('No change in file size...Ensure simulation is running as expected!');
+                %disp('No change in file size...Ensure simulation is running as expected!');
             end
 
-            % Pause for a while before checking again - check every 1 second
-            pause(1);
+            % Pause for a while before checking again - check every 15 seconds
+            pause(5);
 
             % Exit condition: Monitoring time has expired:
             if toc > monitorDuration

@@ -1,4 +1,4 @@
-function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_redetect_reentrant(simulationDuration, outputFile, EGM_name, EGM_features_name, therapySigs, input_state_time, NSR_temp)
+function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_redetect_reentrant(simulationDuration, outputFile, EGM_name, EGM_features_name, therapySigs, input_state_time, NSR_temp, pythonExe)
     % monitor_initial: Monitor the simulation for arrhythmias and return diagnosis.
     % 
     % Parameters:
@@ -19,11 +19,10 @@ function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = 
     % Define the folder paths based on the output file provided
     simFolder = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Reentrant_VT', outputFile);
     phie_filePath = fullfile(simFolder, 'phie.igb');
-    disp(phie_filePath);
+    %disp(phie_filePath);
 
     % Define the file path for the extraction of the phie traces 
     pythonScript = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Reentrant_VT', 'phie_extract.py');
-    pythonExe = 'python'; % Assuming python executable is available in the path
 
     % Define the name for the extracted phie traces
     phieName = 'phie_icd';

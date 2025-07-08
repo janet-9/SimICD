@@ -52,6 +52,7 @@ format longG;
 ATP_param.start = Input_State_Time + (average_cycle * ATP_Coupling_Percentage);
 ATP_param.cycle = average_cycle * ATP_CL_Percentage;
 ATP_param.Sim_End = ATP_param.start + (ATP_pls * ATP_param.cycle) + 1000;
+ATP_param.pls = ATP_pls;
 
 % Initialize variables for file search
 closestFilename = '';

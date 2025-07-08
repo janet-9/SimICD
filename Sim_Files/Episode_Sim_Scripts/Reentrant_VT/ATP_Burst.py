@@ -160,7 +160,7 @@ def run(args, job):
             ]
     
 
-    #Define the conductivities. User must add in their own values or openCARP defaults will be used.  
+    #Define the conductivities. User must add in their own values or these defaults will be used.  
     #User must define the regions for myocardium, scar regions and isthmus regions (if present). Border Zone (BZ) regions can be added if desired by the user:
     #Note: Mondomain conductivites will be calculated as half of the harmonic mean of intracellular and extracellular conductivities
 
@@ -172,42 +172,39 @@ def run(args, job):
     		'-gregion[0].name', 		"Myocardium",
             '-gregion[0].num_IDs', 1,
             '-gregion[0].ID[0]', args.myocardium,
-            
+          
     		
-    		'-gregion[0].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[0].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[0].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[0].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[0].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[0].g_in', 		# intracellular conductivity in sheet direction  
+    		'-gregion[0].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
+    		'-gregion[0].g_et', 		1.253,	# extracellular conductivity in transverse direction
+    		'-gregion[0].g_en', 		0.8295,	# extracellular conductivity in sheet direction
+    		'-gregion[0].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
+    		'-gregion[0].g_it', 		0.35,	# intracellular conductivity in transverse direction
+    		'-gregion[0].g_in', 		0.2345,	# intracellular conductivity in sheet direction
 
             '-gregion[1].name', 		"Scar",
             '-gregion[1].num_IDs', 1,
             '-gregion[1].ID[0]', args.scar_region,
     		
 
-    		'-gregion[1].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[1].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[1].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[1].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[1].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[1].g_in', 		# intracellular conductivity in sheet direction
-    		
+    		'-gregion[1].g_el', 		0.0001,	# extracellular conductivity in longitudinal direction
+    		'-gregion[1].g_et', 		0.0001,	# extracellular conductivity in transverse direction
+    		'-gregion[1].g_en', 		0.0001,	# extracellular conductivity in sheet direction
+    		'-gregion[1].g_il', 		0.0001,	# intracellular conductivity in longitudinal direction
+    		'-gregion[1].g_it', 		0.0001,	# intracellular conductivity in transverse direction
+    		'-gregion[1].g_in', 		0.0001,	# intracellular conductivity in sheet direction
 
             '-gregion[2].name', 		"Isthmus",
             '-gregion[2].num_IDs', 1,
             '-gregion[2].ID[0]', args.isthmus_region,
            
-    		'-gregion[2].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[2].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[2].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[2].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[2].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[2].g_in', 		# intracellular conductivity in sheet direction
+    		'-gregion[2].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
+    		'-gregion[2].g_et', 		1.2530,	# extracellular conductivity in transverse direction
+    		'-gregion[2].g_en', 		0.8295,	# extracellular conductivity in sheet direction
+    		'-gregion[2].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
+    		'-gregion[2].g_it', 		0.3500,	# intracellular conductivity in transverse direction
+    		'-gregion[2].g_in', 		0.2345,	# intracellular conductivity in sheet direction
     		'-gregion[2].g_mult',		args.conmul, #scale all conducitivites by a factor (to alter conduction velocity) 
-
-
-                   ]
+            ]
 
     else: 
 
@@ -219,44 +216,42 @@ def run(args, job):
             '-gregion[0].ID[0]', args.myocardium,
           
     
-    		'-gregion[0].g_el', 		# extracellular conductivity in longitudinal direction
-    		'-gregion[0].g_et', 		# extracellular conductivity in transverse direction
-    		'-gregion[0].g_en', 		# extracellular conductivity in sheet direction
-    		'-gregion[0].g_il', 		# intracellular conductivity in longitudinal direction
-    		'-gregion[0].g_it', 		# intracellular conductivity in transverse direction
-    		'-gregion[0].g_in', 		# intracellular conductivity in sheet direction
+    	    '-gregion[0].g_el', 		3.3558,	# extracellular conductivity in longitudinal direction
+    		'-gregion[0].g_et', 		1.253,	# extracellular conductivity in transverse direction
+    		'-gregion[0].g_en', 		0.8295,	# extracellular conductivity in sheet direction
+    		'-gregion[0].g_il', 		0.9324,	# intracellular conductivity in longitudinal direction
+    		'-gregion[0].g_it', 		0.35,	# intracellular conductivity in transverse direction
+    		'-gregion[0].g_in', 		0.2345,	# intracellular conductivity in sheet direction
                 ]
+        
 
 
+        #Define the stimulus - underlying NSR rhythm that continues underneath the arrhythmia episode and the application of the ATP. 
+        cmd += ['-num_stim',  2,
+                
+            # NSR stimulus
+            '-stimulus[0].vtx_fcn', 1,
+            '-stimulus[0].vtx_file', args.NSR_vtx,
+            '-stimulus[0].stimtype',  0, #Transmembrane Stimulus
+            '-stimulus[0].strength', args.strength,
+            '-stimulus[0].duration', args.duration,
+            '-stimulus[0].start', args.start,
+            '-stimulus[0].npls',  args.tend/args.bcl,
+            '-stimulus[0].bcl',  args.bcl,
 
-
-
-    #Define the stimulus - underlying NSR rhythm that continues underneath the arrhythmia episode and the application of the ATP. 
-    cmd += ['-num_stim',  2,
             
-            #NSR stimulus
-           '-stimulus[0].vtx_fcn', 1,
-           '-stimulus[0].vtx_file', args.NSR_vtx,
-           '-stimulus[0].stimtype',  0, #Transmembrane Stimulus
-           '-stimulus[0].strength', args.strength,
-           '-stimulus[0].duration', args.duration,
-           '-stimulus[0].start', args.start,
-           '-stimulus[0].npls',  args.tend/args.bcl,
-           '-stimulus[0].bcl',  args.bcl,
 
-          
-
-            #ATP stimulus
-           '-stimulus[1].vtx_fcn', 1,
-           '-stimulus[1].vtx_file', args.ATP_stimsite,
-           '-stimulus[1].stimtype',  0, #Transmembrane Stimulus
-           '-stimulus[1].strength', args.ATP_strength,
-           '-stimulus[1].duration', args.ATP_duration,
-           '-stimulus[1].start', args.ATP_start,
-           '-stimulus[1].npls',  args.ATP_pls,
-           '-stimulus[1].bcl',  ATP_cl,
-            
-    ]
+            # ATP stimulus - Double the strength of the NSR pulses 
+            '-stimulus[1].vtx_fcn', 1,
+            '-stimulus[1].vtx_file', args.ATP_stimsite,
+            '-stimulus[1].stimtype',  0, #Transmembrane Stimulus
+            '-stimulus[1].strength', args.ATP_strength,
+            '-stimulus[1].duration', args.ATP_duration,
+            '-stimulus[1].start', args.ATP_start,
+            '-stimulus[1].npls',  args.ATP_pls,
+            '-stimulus[1].bcl',  ATP_cl,
+                
+        ]
 
       #Define outputs and postprocesses
     cmd += ['-spacedt', args.output_res,

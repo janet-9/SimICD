@@ -189,7 +189,7 @@ for VbeatNum = prev_vbeatnumber:numVbeats
                 %shock. 
                 if V_win(end)<QC_Override_th
                     therapySigs(1,3) = 1; 
-                    disp(['Ventricular biphasic shock delivery required at time, QC Override' num2str(t)]);
+                    disp('Ventricular biphasic shock delivery required (QC Override)');
                     break 
                 else
                     % Update the therapy signal to indicate that Quick
@@ -197,7 +197,7 @@ for VbeatNum = prev_vbeatnumber:numVbeats
                     % You also return the time at which therapy is required
                     % and the last measured bcl. 
                     therapySigs(1,3) = 1;
-                    message = ['Quick Convert ATP required at time ' num2str(t), ' last measured bcl ', num2str(V_win(end)), ' 4 cycle average bcl', num2str(mean(V_win(end-3:end)))];
+                    message = ['Quick Convert ATP required: Last measured bcl ', num2str(V_win(end)), ' 4 cycle average bcl', num2str(mean(V_win(end-3:end)))];
                     
                     %Assign ATP parameters 
                     last_beat_time = t;
@@ -255,7 +255,7 @@ for VbeatNum = prev_vbeatnumber:numVbeats
                     % stable then ATP is called for VT zone
                     if ~disc_5 && ~disc_6
                         therapySigs(1,2) = 1;
-                        message = ['VT ATP1 required at time ' num2str(t), ' last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
+                        message = ['VT ATP1 required: Last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
                         VT_ATP1_dur_mode(VbeatNum+1)= 1;
 
                         %Assign ATP parameters
@@ -269,7 +269,7 @@ for VbeatNum = prev_vbeatnumber:numVbeats
                     % If the rhythm is declared uncorrelated then ATP is called for VT zone
                     if ~disc_5
                         therapySigs(1,2) = 1;
-                        message = ['VT ATP1 required at time ' num2str(t), ' last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
+                        message = ['VT ATP1 required: Last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
                         VT_ATP1_dur_mode(VbeatNum+1)= 1;
 
                         %Assign ATP parameters
@@ -328,7 +328,7 @@ for VbeatNum = prev_vbeatnumber:numVbeats
                     % stable then ATP is called for VT zone
                     if ~disc_5 && ~disc_6
                         therapySigs(1,1) = 1;
-                        message = ['VT1 ATP1 required at time ' num2str(t), ' last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
+                        message = ['VT1 ATP1 required: Last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
                         VT1_ATP1_dur_mode(VbeatNum+1)= 1;
 
                         %Assign ATP parameters
@@ -342,7 +342,7 @@ for VbeatNum = prev_vbeatnumber:numVbeats
                     % If the rhythm is declared uncorrelated then ATP is called for VT zone
                     if ~disc_5
                         therapySigs(1,1) = 1;
-                        message = ['VT1 ATP1 required at time ' num2str(t), ' last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
+                        message = ['VT1 ATP1 required: Last measured bcl ', num2str(V_win(end)),' 4 cycle average bcl ', num2str(mean(V_win(end-3:end))) ];
                         VT1_ATP1_dur_mode(VbeatNum+1)= 1;
 
                         %Assign ATP parameters

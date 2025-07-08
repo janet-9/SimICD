@@ -1,4 +1,4 @@
-function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = monitor_initial_focal(simulationDuration, outputFile, EGM_name, EGM_features_name, NSR_temp, tend)
+function [ICD_diagnosis, EGM, EGM_features] = monitor_initial_focal(simulationDuration, outputFile, EGM_name, EGM_features_name, NSR_temp, tend, pythonExe)
     % monitor_initial: Monitor the simulation for arrhythmias and return diagnosis.
     % 
     % Parameters:
@@ -17,12 +17,11 @@ function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = 
     % Define the folder paths based on the output file provided
     simFolder = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT', outputFile);
     phie_filePath = fullfile(simFolder, 'phie.igb');
-    disp(phie_filePath);
+    %disp(phie_filePath);
 
     % Define the file path for the extraction of the phie traces 
     pythonScript = fullfile('Sim_Files', 'Episode_Sim_Scripts', 'Focal_VT', 'phie_extract.py');
-    pythonExe = 'python'; % Assuming python executable is available in the path
-
+   
     % Define the name for the extracted phie traces
     phieName = 'phie_icd';
 
@@ -31,7 +30,7 @@ function [ICD_diagnosis, EGM, EGM_features, ICD_sense_state, ICD_sense_param] = 
    
     % Monitor the file and call the Python script if updated
     disp('ICD Monitoring in Progress...');
-    [EGM, EGM_features, ICD_sense_state, ICD_sense_param, ICD_diagnosis, ~] = initial_detection(phie_filePath, simulationDuration, pythonExe, pythonScript, simFolder, phieName, ICD_traces_file, EGM_name, NSR_temp, tend);
+    [EGM, EGM_features, ICD_diagnosis, ~] = initial_detection(phie_filePath, simulationDuration, pythonExe, pythonScript, simFolder, phieName, ICD_traces_file, EGM_name, NSR_temp, tend);
 
     % Save the relevant structures:
     % EGM (raw)
